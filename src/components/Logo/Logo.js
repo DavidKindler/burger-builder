@@ -5,7 +5,7 @@ import classes from './Logo.css';
 const Logo = props => {
   return (
     <div className={classes.Logo}>
-      <img src={burgerLogo} alt="Burger Builder" height={props.height} />
+      <img src={burgerLogo} alt="Burger Builder" style={{height: props.height}} />
     </div>
   );
 };
