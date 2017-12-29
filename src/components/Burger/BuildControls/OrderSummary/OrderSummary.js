@@ -3,6 +3,7 @@ import Aux from '../../../../hoc/ReactAux';
 import Button from '../../../UI/Button/Button';
 
 class OrderSummary extends Component {
+  //this could be a functional component
   componentWillUpdate() {
     console.log('order summary will update');
   }
