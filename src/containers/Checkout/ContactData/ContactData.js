@@ -80,11 +80,9 @@ class ContactData extends Component {
         elementConfig: {
           options: [{ value: 'fastest', displayValue: 'Fastest' }, { value: 'cheapest', displayValue: 'Cheapest' }]
         },
-        validation: {
-          required: false
-        },
+        // validation: {},
         valid: true,
-        value: ''
+        value: 'fastest'
       }
     },
     formIsValid: false,
@@ -117,6 +115,9 @@ class ContactData extends Component {
 
   checkValidity(value, rules) {
     let isValid = true;
+    if (!rules) {
+      return true;
+    }
     if (rules.required) {
       isValid = value.trim() !== '' && isValid;
     }
