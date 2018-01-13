@@ -5,7 +5,7 @@ import axios from '../../../axios-orders';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../../store/actionTypes';
+import * as actions from '../../../store/actions';
 
 class ContactData extends Component {
   state = {
@@ -199,9 +199,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOrderSubmitted: () => {
-      dispatch({ type: actionTypes.INITIAL_INGREDIENT });
-    }
+    onOrderSubmitted: () => dispatch(actions.initIngredients())
+    // onOrderSubmitted: () => {
+    //   // dispatch({ type: actionTypes.INITIAL_INGREDIENT });
+    //   dispatch({ type: actionTypes.SET_INGREDIENTS });
+    // }
   };
 };
 
