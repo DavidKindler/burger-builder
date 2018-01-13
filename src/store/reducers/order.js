@@ -27,7 +27,7 @@ const ordersReducer = (state = initialState, action) => {
     case actionTypes.PURCHASE_BURGER_LOADING:
       return {
         ...state,
-        loading: action.loading
+        loading: true
       };
     case actionTypes.GET_ORDERS_SUCCESS:
       return {
@@ -40,6 +40,11 @@ const ordersReducer = (state = initialState, action) => {
         ...state,
         error: action.error,
         loading: false
+      };
+    case actionTypes.GET_ORDERS_LOADING:
+      return {
+        ...state,
+        loading: true
       };
     default:
       return state;

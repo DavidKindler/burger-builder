@@ -5,23 +5,20 @@ export const purchaseBurgerSuccess = (id, orderData) => {
   return {
     type: actionTypes.PURCHASE_BURGER_SUCCESS,
     orderId: id,
-    orderData: orderData,
-    loading: false
+    orderData: orderData
   };
 };
 
 export const purchaseBurgerFail = error => {
   return {
     type: actionTypes.PURCHASE_BURGER_FAIL,
-    error: error,
-    loading: false
+    error: error
   };
 };
 
 export const purchaseBurgerLoading = () => {
   return {
-    type: actionTypes.PURCHASE_BURGER_LOADING,
-    loading: true
+    type: actionTypes.PURCHASE_BURGER_LOADING
   };
 };
 export const purchaseBurgerStart = orderData => {
@@ -41,7 +38,11 @@ export const purchaseBurgerStart = orderData => {
       });
   };
 };
-
+export const getOrdersLoading = () => {
+  return {
+    type: actionTypes.GET_ORDERS_LOADING
+  };
+};
 export const getOrdersSuccess = orders => {
   return {
     type: actionTypes.GET_ORDERS_SUCCESS,
@@ -56,6 +57,7 @@ export const getOrdersFail = error => {
 };
 export const getOrdersStart = () => {
   return dispatch => {
+    dispatch(getOrdersLoading());
     axios
       .get('/orders.json')
       .then(response => {
