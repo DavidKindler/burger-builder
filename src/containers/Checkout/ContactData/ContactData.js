@@ -6,6 +6,7 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 
 class ContactData extends Component {
   state = {
@@ -87,13 +88,12 @@ class ContactData extends Component {
         value: 'fastest'
       }
     },
-    formIsValid: false,
-    loading: false
+    formIsValid: false
   };
 
   orderHandler = event => {
     event.preventDefault();
-    this.setState({ loading: true });
+    // this.setState({ loading: true });
     const formData = {};
     for (let formElementIdentifier in this.state.orderForm) {
       formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
@@ -106,16 +106,9 @@ class ContactData extends Component {
     };
 
     console.log('order to be sent', order);
-    axios
-      .post('/orders.json', order)
-      .then(response => {
-        this.setState({ loading: false });
-        this.props.onOrderSubmitted();
-        this.props.history.push('/');
-      })
-      .catch(error => {
-        this.setState({ loading: false });
-      });
+    this.props.onPurchaseBurger(order);
+    this.props.onOrderSubmitted();
+    this.props.history.push('/');
   };
 
   checkValidity(value, rules) {
@@ -178,7 +171,7 @@ class ContactData extends Component {
         </Button>
       </form>
     );
-    if (this.state.loading) {
+    if (this.props.loading) {
       form = <Spinner />;
     }
     return (
@@ -192,14 +185,16 @@ class ContactData extends Component {
 // export default ContactData;
 const mapStateToProps = state => {
   return {
-    ingredients: state.ingredients,
-    totalPrice: state.totalPrice
+    ingredients: state.burgers.ingredients,
+    totalPrice: state.burgers.totalPrice,
+    loading: state.burgers.loading
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOrderSubmitted: () => dispatch(actions.initIngredients())
+    onOrderSubmitted: () => dispatch(actions.initIngredients()),
+    onPurchaseBurger: order => dispatch(actions.purchaseBurgerStart(order))
     // onOrderSubmitted: () => {
     //   // dispatch({ type: actionTypes.INITIAL_INGREDIENT });
     //   dispatch({ type: actionTypes.SET_INGREDIENTS });
@@ -207,4 +202,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactData);
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));

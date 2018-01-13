@@ -9,15 +9,9 @@ const Order = props => {
       amount: props.ingredients[ingredientName]
     });
   }
-
-  // let transformedIngredients = Object.keys(props.ingredients)
-  //   .map(igKey => {
-  //     return [...Array(props.ingredients[igKey])].map((_, i) => <BurgerIngredient key={igKey + i} type={igKey} />);
-  //   })
-  //   .reduce((arr, el) => {
-  //     return arr.concat(el);
-  //   }, []);
-
+  const newDate = new Date(props.orderDate);
+  const orderDate = newDate.toLocaleString();
+  // const orderDate = Date.parse(props.orderDate);
   const ingredientOutput = ingredients.map(ig => {
     return (
       <span
@@ -40,6 +34,7 @@ const Order = props => {
       <p>
         Price: <strong>USD ${(+props.price).toFixed(2)}</strong>
       </p>
+      <p>Order Date: {orderDate}</p>
     </div>
   );
 };

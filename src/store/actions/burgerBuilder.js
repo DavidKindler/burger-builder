@@ -15,10 +15,11 @@ export const removeIngredient = ingName => {
   };
 };
 
-export const setIngredients = ingredients => {
+export const setIngredients = (ingredients, totalPrice) => {
   return {
     type: actionTypes.SET_INGREDIENTS,
-    ingredients: ingredients
+    ingredients: ingredients,
+    totalPrice: totalPrice
   };
 };
 export const fetchIngredientsFailed = () => {
@@ -33,7 +34,7 @@ export const initIngredients = () => {
       .get('https://react-myburger-a7627.firebaseio.com/ingredients.json')
       .then(response => {
         // this.setState({ ingredients: response.data });
-        dispatch(setIngredients(response.data));
+        dispatch(setIngredients(response.data, 0));
       })
       .catch(error => {
         console.log(error);
