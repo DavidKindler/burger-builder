@@ -8,3 +8,5 @@ export {
   getOrdersFail,
   getOrdersStart
 } from './order';
+
+export { auth } from './auth';
