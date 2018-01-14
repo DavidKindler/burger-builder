@@ -7,6 +7,7 @@ import axios from '../../axios-orders';
 import * as actions from '../../store/actions/index';
 import { connect } from 'react-redux';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 class Auth extends Component {
   state = {
@@ -40,7 +41,8 @@ class Auth extends Component {
         touched: false
       }
     },
-    formIsValid: false
+    formIsValid: false,
+    isSignup: true
   };
   checkValidity(value, rules) {
     let isValid = true;
@@ -69,10 +71,15 @@ class Auth extends Component {
     for (let formElementIdentifier in this.state.controls) {
       formData[formElementIdentifier] = this.state.controls[formElementIdentifier].value;
     }
-
-    console.log(formData);
+    // console.log(formData);
+    this.props.onLoginSubmitted({ ...formData, isSignup: this.state.isSignup });
   };
-
+  switchAuthModeHandler = event => {
+    event.preventDefault();
+    this.setState(prevState => {
+      return { isSignup: !prevState.isSignup };
+    });
+  };
   inputChangedHandler = (event, inputIdentifier) => {
     const updatedLoginForm = { ...this.state.controls };
     const updatedFormElement = { ...updatedLoginForm[inputIdentifier] };
@@ -96,7 +103,8 @@ class Auth extends Component {
       });
     }
     let form = (
-      <form onSubmit={this.formHandler}>
+      // <form onSubmit={this.formHandler}>
+      <form>
         {formElementsArray.map(formElement => (
           <Input
             key={formElement.id}
@@ -113,12 +121,23 @@ class Auth extends Component {
         <Button btnType="Success" clicked={this.formHandler} disabled={!this.state.formIsValid}>
           SUBMIT
         </Button>
+        <Button btnType="Danger" clicked={this.switchAuthModeHandler}>
+          SWITCH TO {this.state.isSignup ? 'SIGNIN' : 'SIGNUP'}
+        </Button>
       </form>
     );
 
+    if (this.props.loading) {
+      form = <Spinner />;
+    }
+    let errorMessage = null;
+    if (this.props.error) {
+      errorMessage = <p>{this.props.error.message}</p>;
+    }
     return (
       <div className={classes.AuthData}>
-        <h4>Login Form</h4>
+        {errorMessage}
+        <h4>{this.state.isSignup ? 'Signup' : 'Login'} Form</h4>
         {form}
       </div>
     );
@@ -128,7 +147,11 @@ class Auth extends Component {
 // export default Auth;
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    isLoggedin: state.auth.isLoggedin,
+    loading: state.auth.loading,
+    error: state.auth.error
+  };
 };
 
 const mapDispatchToProps = dispatch => {

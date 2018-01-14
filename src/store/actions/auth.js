@@ -1,15 +1,16 @@
 import * as actionTypes from './actionTypes';
+import axios from 'axios';
 
-export const authStart = () => {
+export const authStart = loginData => {
   return {
     type: actionTypes.AUTH_START
   };
 };
 
-export const authSuccess = authData => {
+export const authSuccess = loginData => {
   return {
     type: actionTypes.AUTH_SUCCESS,
-    authData: authData
+    loginData: loginData
   };
 };
 
@@ -20,8 +21,29 @@ export const authFail = error => {
   };
 };
 
-export const auth = (email, password) => {
+export const auth = loginData => {
   return dispatch => {
     dispatch(authStart());
+    const authData = {
+      ...loginData,
+      returnSecureToken: true
+    };
+    console.log(authData);
+    let url =
+      'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyDAYybqu9fwt_5bSp14Seg3qjDSfrgj0Os';
+    if (!authData.isSignup) {
+      url =
+        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyDAYybqu9fwt_5bSp14Seg3qjDSfrgj0Os';
+    }
+    axios
+      .post(url, authData)
+      .then(response => {
+        console.log(response);
+        dispatch(authSuccess(response.data));
+      })
+      .catch(error => {
+        console.log(error);
+        dispatch(authFail(error.response.data.error));
+      });
   };
 };
