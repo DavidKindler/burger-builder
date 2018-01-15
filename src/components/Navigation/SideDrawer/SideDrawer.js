@@ -19,7 +19,7 @@ const SideDrawer = props => {
           <Logo />
         </div>
         <nav>
-          <NavigationItems />
+          <NavigationItems isLoggedin={props.isLoggedin} />
         </nav>
       </div>
     </Aux>
