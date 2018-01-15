@@ -3,6 +3,7 @@ import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import classes from './Auth.css';
 import axios from '../../axios-orders';
+import { Redirect } from 'react-router-dom';
 
 import * as actions from '../../store/actions/index';
 import { connect } from 'react-redux';
@@ -95,6 +96,10 @@ class Auth extends Component {
   };
 
   render() {
+    let authRedirect = null;
+    if (this.props.isLoggedin) {
+      authRedirect = <Redirect to="/" />;
+    }
     const formElementsArray = [];
     for (let key in this.state.controls) {
       formElementsArray.push({
@@ -136,6 +141,7 @@ class Auth extends Component {
     }
     return (
       <div className={classes.AuthData}>
+        {authRedirect}
         {errorMessage}
         <h4>{this.state.isSignup ? 'Signup' : 'Login'} Form</h4>
         {form}

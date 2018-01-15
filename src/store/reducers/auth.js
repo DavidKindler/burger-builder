@@ -38,6 +38,8 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoggedin: false,
+        token: null,
+        loading: false,
         userId: null
       };
     default:

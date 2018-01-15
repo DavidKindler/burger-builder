@@ -8,6 +8,9 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 
 class Orders extends Component {
   componentDidMount() {
+    if (!this.props.isLoggedin) {
+      this.props.history.push({ pathname: '/auth' });
+    }
     this.props.onGetOrders(this.props.token);
   }
 
@@ -30,7 +33,8 @@ const mapStateToProps = state => {
     orders: state.orders.orders,
     error: state.orders.error,
     loading: state.orders.loading,
-    token: state.auth.token
+    token: state.auth.token,
+    isLoggedin: state.auth.isLoggedin
   };
 };
 
