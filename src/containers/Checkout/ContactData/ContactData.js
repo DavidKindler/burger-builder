@@ -106,7 +106,7 @@ class ContactData extends Component {
     };
 
     console.log('order to be sent', order);
-    this.props.onPurchaseBurger(order);
+    this.props.onPurchaseBurger(order, this.props.token);
     this.props.onOrderSubmitted();
     this.props.history.push('/');
   };
@@ -187,14 +187,15 @@ const mapStateToProps = state => {
   return {
     ingredients: state.burgers.ingredients,
     totalPrice: state.burgers.totalPrice,
-    loading: state.burgers.loading
+    loading: state.burgers.loading,
+    token: state.auth.token
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onOrderSubmitted: () => dispatch(actions.initIngredients()),
-    onPurchaseBurger: order => dispatch(actions.purchaseBurgerStart(order))
+    onPurchaseBurger: (order, token) => dispatch(actions.purchaseBurgerStart(order, token))
     // onOrderSubmitted: () => {
     //   // dispatch({ type: actionTypes.INITIAL_INGREDIENT });
     //   dispatch({ type: actionTypes.SET_INGREDIENTS });

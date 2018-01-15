@@ -21,11 +21,11 @@ export const purchaseBurgerLoading = () => {
     type: actionTypes.PURCHASE_BURGER_LOADING
   };
 };
-export const purchaseBurgerStart = orderData => {
+export const purchaseBurgerStart = (orderData, token) => {
   return dispatch => {
     dispatch(purchaseBurgerLoading());
     axios
-      .post('/orders.json', orderData)
+      .post('/orders.json?auth=' + token, orderData)
       .then(response => {
         dispatch(purchaseBurgerSuccess(response.data.name, orderData));
         // this.setState({ loading: false });
@@ -55,11 +55,11 @@ export const getOrdersFail = error => {
     error: error
   };
 };
-export const getOrdersStart = () => {
+export const getOrdersStart = token => {
   return dispatch => {
     dispatch(getOrdersLoading());
     axios
-      .get('/orders.json')
+      .get('/orders.json?auth=' + token)
       .then(response => {
         const fetchedOrders = [];
         for (let key in response.data) {
