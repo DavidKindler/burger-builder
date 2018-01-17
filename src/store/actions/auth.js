@@ -41,7 +41,6 @@ export const auth = loginData => {
       ...loginData,
       returnSecureToken: true
     };
-    console.log(authData);
     let url =
       'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyDAYybqu9fwt_5bSp14Seg3qjDSfrgj0Os';
     if (!authData.isSignup) {
@@ -51,8 +50,13 @@ export const auth = loginData => {
     axios
       .post(url, authData)
       .then(response => {
-        console.log(response);
-        dispatch(authSuccess(response.data));
+        const expirationTime = new Date().getTime() * 1000;
+        const localData = { ...response.data, expirationTime };
+        localStorage.setItem('loginData', JSON.stringify(localData));
+        console.log(JSON.parse(localStorage.getItem('loginData')));
+        // dispatch(authSuccess(response.data));
+        // dispatch(checkAuthTimeout(response.data.expiresIn));
+        dispatch(authSuccess(localData));
         dispatch(checkAuthTimeout(response.data.expiresIn));
       })
       .catch(error => {

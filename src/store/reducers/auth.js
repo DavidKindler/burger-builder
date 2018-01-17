@@ -24,6 +24,7 @@ const authReducer = (state = initialState, action) => {
         isLoggedin: true,
         loading: false,
         data: action.loginData,
+        expirationTime: action.loginData.expirationTime,
         error: null,
         token: action.loginData.idToken,
         userId: action.loginData.localId
