@@ -61,3 +61,10 @@ export const auth = loginData => {
       });
   };
 };
+
+export const setAuthRedirectPath = path => {
+  return {
+    type: actionTypes.AUTH_REDIRECT_PATH,
+    path: path
+  };
+};

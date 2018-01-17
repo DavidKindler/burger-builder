@@ -9,7 +9,13 @@ const controls = [
   { label: 'Meat', type: 'meat' }
 ];
 const buildControls = props => {
-  return (
+  let buttonChoice = (
+    <button onClick={props.ordered} disabled={!props.purchasable} className={classes.OrderButton}>
+      {props.isLoggedin ? 'ORDER NOW' : 'LOGIN TO ORDER'}
+    </button>
+  );
+
+  let menuChoices = (
     <div className={classes.BuildControls}>
       <p>
         Current Price: <strong>{props.price.toFixed(2)}</strong>{' '}
@@ -24,11 +30,11 @@ const buildControls = props => {
         />
       ))}
 
-      <button onClick={props.ordered} disabled={!props.purchasable} className={classes.OrderButton}>
-        ORDER NOW
-      </button>
+      {buttonChoice}
     </div>
   );
+  // }
+  return menuChoices;
 };
 
 export default buildControls;

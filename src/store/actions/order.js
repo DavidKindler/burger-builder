@@ -33,7 +33,7 @@ export const purchaseBurgerStart = (orderData, token) => {
         // this.props.history.push('/');
       })
       .catch(error => {
-        this.setState({ loading: false });
+        // this.setState({ loading: false });
         dispatch(purchaseBurgerFail(error));
       });
   };

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import Aux from '../../hoc/ReactAux';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
@@ -41,7 +42,12 @@ class BurgerBuilder extends Component {
   };
 
   purchaseHandler = () => {
-    this.setState({ purchasing: true });
+    if (this.props.isLoggedin) {
+      this.setState({ purchasing: true });
+    } else {
+      this.props.onSetAuthRedirectPath('/checkout');
+      this.props.history.push({ pathname: '/auth' });
+    }
   };
   purchaseCancelHandler = () => {
     this.setState({ purchasing: false });
@@ -71,6 +77,7 @@ class BurgerBuilder extends Component {
             // purchasable={this.state.purchasable}
             purchasable={this.updatePurchaseState(this.props.ingredients)}
             ordered={this.purchaseHandler}
+            isLoggedin={this.props.isLoggedin}
           />
         </Aux>
       );
@@ -103,7 +110,9 @@ const mapStateToProps = state => {
   return {
     ingredients: state.burgers.ingredients,
     totalPrice: state.burgers.totalPrice,
-    error: state.burgers.error
+    error: state.burgers.error,
+    isLoggedin: state.auth.isLoggedin,
+    building: state.burgers.building
   };
 };
 
@@ -111,11 +120,12 @@ const mapDispatchToProps = dispatch => {
   return {
     onIngredientAdded: ingName => dispatch(actions.addIngredient(ingName)),
     onIngredientRemove: ingName => dispatch(actions.removeIngredient(ingName)),
-    onInitIngredients: () => dispatch(actions.initIngredients())
+    onInitIngredients: () => dispatch(actions.initIngredients()),
+    onSetAuthRedirectPath: path => dispatch(actions.setAuthRedirectPath(path))
 
     // onIngredientAdded: ingName => dispatch({ type: actionTypes.ADD_INGREDIENT, ingredientName: ingName }),
     // onIngredientRemove: ingName => dispatch({ type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingName })
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios)));
