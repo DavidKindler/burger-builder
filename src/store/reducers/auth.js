@@ -42,7 +42,8 @@ const authReducer = (state = initialState, action) => {
         isLoggedin: false,
         token: null,
         loading: false,
-        userId: null
+        userId: null,
+        expirationTime: null
       };
     case actionTypes.AUTH_REDIRECT_PATH:
       return {

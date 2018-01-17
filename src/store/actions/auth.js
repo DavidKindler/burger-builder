@@ -21,6 +21,7 @@ export const authFail = error => {
   };
 };
 export const logout = () => {
+  localStorage.removeItem('loginData');
   return {
     type: actionTypes.AUTH_LOGOUT
   };
@@ -37,6 +38,7 @@ export const checkAuthTimeout = expirationTime => {
 export const auth = loginData => {
   return dispatch => {
     dispatch(authStart());
+    checkStillLoggedIn();
     const authData = {
       ...loginData,
       returnSecureToken: true
@@ -50,7 +52,7 @@ export const auth = loginData => {
     axios
       .post(url, authData)
       .then(response => {
-        const expirationTime = new Date().getTime() * 1000;
+        const expirationTime = new Date().getTime() + response.data.expiresIn * 1000;
         const localData = { ...response.data, expirationTime };
         localStorage.setItem('loginData', JSON.stringify(localData));
         console.log(JSON.parse(localStorage.getItem('loginData')));
@@ -71,4 +73,18 @@ export const setAuthRedirectPath = path => {
     type: actionTypes.AUTH_REDIRECT_PATH,
     path: path
   };
+};
+
+export const checkStillLoggedIn = localData => {
+  const currentTime = new Date().getTime();
+  const storageTime = localStorage['loginData'] && JSON.parse(localStorage.getItem('loginData')).expirationTime;
+  console.log('current time', new Date(currentTime));
+  console.log('storage time', new Date(storageTime));
+  if (storageTime > currentTime) {
+    console.log('you should still be logged in');
+    return false;
+  } else {
+    console.log('first time logging in?');
+    return true;
+  }
 };
