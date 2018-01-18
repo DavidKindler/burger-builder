@@ -38,7 +38,7 @@ export const checkAuthTimeout = expirationTime => {
 export const auth = loginData => {
   return dispatch => {
     dispatch(authStart());
-    checkStillLoggedIn();
+    // checkStillLoggedIn();
     const authData = {
       ...loginData,
       returnSecureToken: true
@@ -52,7 +52,7 @@ export const auth = loginData => {
     axios
       .post(url, authData)
       .then(response => {
-        const expirationTime = new Date().getTime() + response.data.expiresIn * 1000;
+        const expirationTime = new Date(new Date().getTime() + response.data.expiresIn * 1000);
         const localData = { ...response.data, expirationTime };
         localStorage.setItem('loginData', JSON.stringify(localData));
         console.log(JSON.parse(localStorage.getItem('loginData')));
@@ -75,16 +75,35 @@ export const setAuthRedirectPath = path => {
   };
 };
 
-export const checkStillLoggedIn = localData => {
-  const currentTime = new Date().getTime();
-  const storageTime = localStorage['loginData'] && JSON.parse(localStorage.getItem('loginData')).expirationTime;
-  console.log('current time', new Date(currentTime));
-  console.log('storage time', new Date(storageTime));
-  if (storageTime > currentTime) {
-    console.log('you should still be logged in');
-    return false;
-  } else {
-    console.log('first time logging in?');
-    return true;
-  }
+export const authCheckState = loginData => {
+  return dispatch => {
+    if (!localStorage['loginData']) {
+      dispatch(logout());
+    } else {
+      const currentTime = new Date();
+      const localStore = JSON.parse(localStorage.getItem('loginData'));
+      const expirationTime = new Date(localStore.expirationTime);
+      // const token = localStore.token;
+      console.log('localStorage', localStore);
+      console.log('current time', new Date(currentTime));
+      console.log('storage time', new Date(expirationTime));
+      if (expirationTime > currentTime) {
+        console.log('you should still be logged in');
+        // return false;
+        const dispatchData = {
+          ...loginData,
+          // token: localStorage.token,
+          expirationTime: localStorage.expirationTime,
+          data: localStorage
+        };
+        dispatch(authSuccess(dispatchData));
+        console.log('dispatch authSuccess with ', dispatchData);
+        dispatch(checkAuthTimeout(expirationTime.getSeconds() - new Date().getSeconds()));
+      } else {
+        console.log('first time logging in?');
+        // dispatch('not logged in yet');
+        dispatch(logout());
+      }
+    }
+  };
 };

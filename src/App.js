@@ -4,11 +4,16 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Orders from './containers/Orders/Orders';
 import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
+import { connect } from 'react-redux';
+import * as actions from './store/actions/index';
 
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 import Checkout from './containers/Checkout/Checkout';
 
 class App extends Component {
+  componentDidMount() {
+    this.props.onTryAutoSignup(this.props.auth);
+  }
   render() {
     return (
       <BrowserRouter>
@@ -26,4 +31,17 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    auth: state.auth
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    onTryAutoSignup: authState => {
+      dispatch(actions.authCheckState(authState));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
