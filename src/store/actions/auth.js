@@ -76,29 +76,39 @@ export const setAuthRedirectPath = path => {
 };
 
 export const authCheckState = loginData => {
-  return dispatch => {
+  return (dispatch, getState) => {
     if (!localStorage['loginData']) {
       dispatch(logout());
     } else {
       const currentTime = new Date();
       const localStore = JSON.parse(localStorage.getItem('loginData'));
       const expirationTime = new Date(localStore.expirationTime);
-      // const token = localStore.token;
-      console.log('localStorage', localStore);
+      const idToken = localStore.idToken;
+      const userId = localStore.localId;
+      const loginData = getState();
+      console.log('localStore', localStore);
       console.log('current time', new Date(currentTime));
       console.log('storage time', new Date(expirationTime));
       if (expirationTime > currentTime) {
         console.log('you should still be logged in');
         // return false;
+
+        console.log('current state', loginData, localStorage);
         const dispatchData = {
-          ...loginData,
-          // token: localStorage.token,
-          expirationTime: localStorage.expirationTime,
-          data: localStorage
+          ...loginData.auth,
+          idToken: idToken,
+          isLoggedin: true,
+          expirationTime: expirationTime,
+          userId: userId,
+          localStore: localStore
         };
         dispatch(authSuccess(dispatchData));
         console.log('dispatch authSuccess with ', dispatchData);
-        dispatch(checkAuthTimeout(expirationTime.getSeconds() - new Date().getSeconds()));
+        var secondsLeft = (expirationTime.getTime() - new Date().getTime()) / 1000;
+        dispatch(checkAuthTimeout(secondsLeft));
+        console.log('expirationTime.getSeconds()', expirationTime.getTime());
+        console.log('new Date().getSeconds()', new Date().getTime());
+        console.log('seconds left is', secondsLeft);
       } else {
         console.log('first time logging in?');
         // dispatch('not logged in yet');
