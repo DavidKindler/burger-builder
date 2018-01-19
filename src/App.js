@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Layout from './hoc/Layout/Layout';
-import { Route, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import Orders from './containers/Orders/Orders';
 import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
@@ -15,23 +15,30 @@ class App extends Component {
     this.props.onTryAutoSignup();
   }
   render() {
-    return (
-      <Layout>
-        <div className="App">
+    let routes = (
+      <Switch>
+        <Route path="/auth" component={Auth} />
+        <Route path="/" exact render={() => <BurgerBuilder />} />
+        <Redirect to="/" />
+      </Switch>
+    );
+    if (this.props.isLoggedin) {
+      routes = (
+        <Switch>
           <Route path="/checkout" component={Checkout} />
           <Route path="/orders" component={Orders} />
-          <Route path="/auth" component={Auth} />
           <Route path="/logout" component={Logout} />
           <Route path="/" exact render={() => <BurgerBuilder />} />
-        </div>
-      </Layout>
-    );
+        </Switch>
+      );
+    }
+    return <Layout>{routes} </Layout>;
   }
 }
 
 const mapStateToProps = state => {
   return {
-    // auth: state.auth
+    isLoggedin: state.auth.isLoggedin
   };
 };
 const mapDispatchToProps = dispatch => {
