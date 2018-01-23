@@ -3,7 +3,7 @@ import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import classes from './Auth.css';
 import axios from '../../axios-orders';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 
 import * as actions from '../../store/actions/index';
 import { connect } from 'react-redux';
@@ -181,4 +181,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Auth, axios));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Auth, axios)));

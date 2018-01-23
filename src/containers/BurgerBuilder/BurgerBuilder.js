@@ -19,16 +19,6 @@ class BurgerBuilder extends Component {
     this.props.onInitIngredients();
   }
 
-  //   axios
-  //     .get('https://react-myburger-a7627.firebaseio.com/ingredients.json')
-  //     .then(response => {
-  //       this.setState({ ingredients: response.data });
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //       this.setState({ error: true });
-  //     });
-  // }
   updatePurchaseState = ingredients => {
     const sum = Object.keys(ingredients)
       .map(igKey => {
@@ -44,8 +34,8 @@ class BurgerBuilder extends Component {
   purchaseHandler = () => {
     if (this.props.isLoggedin) {
       this.setState({ purchasing: true });
-    } else {
       this.props.onSetAuthRedirectPath('/checkout');
+    } else {
       this.props.history.push({ pathname: '/auth' });
     }
   };
