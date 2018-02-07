@@ -11,7 +11,7 @@ class Orders extends Component {
     if (!this.props.isLoggedin) {
       this.props.history.push({ pathname: '/auth' });
     }
-    this.props.onGetOrders(this.props.token);
+    this.props.onGetOrders(this.props.token, this.props.userId);
   }
 
   render() {
@@ -34,13 +34,14 @@ const mapStateToProps = state => {
     error: state.orders.error,
     loading: state.orders.loading,
     token: state.auth.token,
-    isLoggedin: state.auth.isLoggedin
+    isLoggedin: state.auth.isLoggedin,
+    userId: state.auth.userId
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onGetOrders: token => dispatch(actions.getOrdersStart(token))
+    onGetOrders: (token, userId) => dispatch(actions.getOrdersStart(token, userId))
   };
 };
 

@@ -27,7 +27,7 @@ const authReducer = (state = initialState, action) => {
         expirationTime: action.loginData.expirationTime,
         error: null,
         token: action.loginData.idToken,
-        userId: action.loginData.userId
+        userId: action.loginData.localId || action.loginData.userId
       };
     case actionTypes.AUTH_FAIL:
       return {

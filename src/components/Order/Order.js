@@ -11,6 +11,7 @@ const Order = props => {
   }
   const newDate = new Date(props.orderDate);
   const orderDate = newDate.toLocaleString();
+  const userId = props.userId;
   // const orderDate = Date.parse(props.orderDate);
   const ingredientOutput = ingredients.map(ig => {
     return (
@@ -35,6 +36,7 @@ const Order = props => {
         Price: <strong>USD ${(+props.price).toFixed(2)}</strong>
       </p>
       <p>Order Date: {orderDate}</p>
+      <p>Orderd by: {userId}</p>
     </div>
   );
 };
