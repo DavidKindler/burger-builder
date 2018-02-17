@@ -3,7 +3,7 @@ import classes from './NavigationItems.css';
 import './NavigationItem/NavigationItem';
 import NavigationItem from './NavigationItem/NavigationItem';
 
-const navigationItems = props => {
+const NavigationItems = props => {
   const auth = props.isLoggedin ? (
     <NavigationItem link="/logout">Logout</NavigationItem>
   ) : (
@@ -19,4 +19,4 @@ const navigationItems = props => {
   );
 };
 
-export default navigationItems;
+export default NavigationItems;

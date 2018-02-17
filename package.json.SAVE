@@ -16,7 +16,6 @@
     "chalk": "1.1.3",
     "css-loader": "0.28.4",
     "dotenv": "4.0.0",
-    "enzyme-to-json": "^3.3.1",
     "eslint": "4.4.1",
     "eslint-config-react-app": "^2.0.0",
     "eslint-loader": "1.9.0",
@@ -56,39 +55,9 @@
     "test": "node scripts/test.js --env=jsdom",
     "test2": "jest"
   },
-    "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}"
-    ],
-    "setupFiles":
-      ["./jestsetup.js","<rootDir>/config/polyfills.js"]
-    ,
-     "snapshotSerializers": ["enzyme-to-json/serializer"],
-    "testMatch": [
-      "<rootDir>/__tests__/**/*.js?(x)",
-      "<rootDir>/?(*.)(spec|test).js?(x)"
-    ],
-    "testEnvironment": "node",
-    "testURL": "http://localhost",
-    "transform": {
-      "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
-    },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
-    ],
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web"
-    },
-    "moduleFileExtensions": [
-      "web.js",
-      "js",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node"
-    ]
+  "jest": {
+    "setupFiles": ["./jestsetup.js"],
+    "snapshotSerializers": ["enzyme-to-json/serializer"]
   },
   "babel": {
     "presets": ["react-app"]
@@ -102,3 +71,36 @@
     "react-test-renderer": "^16.2.0"
   }
 }
+  // "jest": {
+  //   "collectCoverageFrom": [
+  //     "src/**/*.{js,jsx}"
+  //   ],
+  //   "setupFiles": [
+  //     "<rootDir>/config/polyfills.js"
+  //   ],
+  //   "testMatch": [
+  //     "<rootDir>/__tests__/**/*.js?(x)",
+  //     "<rootDir>/?(*.)(spec|test).js?(x)"
+  //   ],
+  //   "testEnvironment": "node",
+  //   "testURL": "http://localhost",
+  //   "transform": {
+  //     "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
+  //     "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
+  //     "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+  //   },
+  //   "transformIgnorePatterns": [
+  //     "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
+  //   ],
+  //   "moduleNameMapper": {
+  //     "^react-native$": "react-native-web"
+  //   },
+  //   "moduleFileExtensions": [
+  //     "web.js",
+  //     "js",
+  //     "json",
+  //     "web.jsx",
+  //     "jsx",
+  //     "node"
+  //   ]
+  // },
