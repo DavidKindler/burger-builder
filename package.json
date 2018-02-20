@@ -46,7 +46,7 @@
     "sw-precache-webpack-plugin": "0.11.4",
     "url-loader": "0.5.9",
     "webpack": "3.5.1",
-    "webpack-dev-server": "2.7.1",
+    "webpack-dev-server": "2.10.0",
     "webpack-manifest-plugin": "1.2.1",
     "whatwg-fetch": "2.0.3"
   },
@@ -56,14 +56,17 @@
     "test": "node scripts/test.js --env=jsdom",
     "test2": "jest"
   },
-    "jest": {
+  "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"
     ],
-    "setupFiles":
-      ["./jestsetup.js","<rootDir>/config/polyfills.js"]
-    ,
-     "snapshotSerializers": ["enzyme-to-json/serializer"],
+    "setupFiles": [
+      "./jestsetup.js",
+      "<rootDir>/config/polyfills.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
     "testMatch": [
       "<rootDir>/__tests__/**/*.js?(x)",
       "<rootDir>/?(*.)(spec|test).js?(x)"
@@ -91,7 +94,9 @@
     ]
   },
   "babel": {
-    "presets": ["react-app"]
+    "presets": [
+      "react-app"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
