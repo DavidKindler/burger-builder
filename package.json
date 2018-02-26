@@ -41,6 +41,7 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
+    "redux-saga": "^0.16.0",
     "redux-thunk": "^2.2.0",
     "style-loader": "0.18.2",
     "sw-precache-webpack-plugin": "0.11.4",
@@ -56,14 +57,17 @@
     "test": "node scripts/test.js --env=jsdom",
     "test2": "jest"
   },
-    "jest": {
+  "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"
     ],
-    "setupFiles":
-      ["./jestsetup.js","<rootDir>/config/polyfills.js"]
-    ,
-     "snapshotSerializers": ["enzyme-to-json/serializer"],
+    "setupFiles": [
+      "./jestsetup.js",
+      "<rootDir>/config/polyfills.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
     "testMatch": [
       "<rootDir>/__tests__/**/*.js?(x)",
       "<rootDir>/?(*.)(spec|test).js?(x)"
@@ -91,7 +95,9 @@
     ]
   },
   "babel": {
-    "presets": ["react-app"]
+    "presets": [
+      "react-app"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"

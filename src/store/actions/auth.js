@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
+import { delay } from 'redux-saga';
 
 export const authStart = loginData => {
   return {
@@ -21,17 +22,27 @@ export const authFail = error => {
   };
 };
 export const logout = () => {
-  localStorage.removeItem('loginData');
+  // localStorage.removeItem('loginData');
   return {
-    type: actionTypes.AUTH_LOGOUT
+    type: actionTypes.AUTH_INITIATE_LOGOUT
+  };
+};
+
+export const logoutSucceed = () => {
+  return {
+    type: actionTypes.AUTH_INITIATE_LOGOUT
   };
 };
 
 export const checkAuthTimeout = expirationTime => {
-  return dispatch => {
-    setTimeout(() => {
-      dispatch(logout());
-    }, expirationTime * 1000);
+  // return dispatch => {
+  //   setTimeout(() => {
+  //     dispatch(logout());
+  //   }, expirationTime * 1000);
+  // };
+  return {
+    type: actionTypes.AUTH_CHECK_TIMEOUT,
+    expirationTime: 10
   };
 };
 
